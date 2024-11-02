@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wanted</title>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link rel="icon" href="./images/logo.jpg">
+
+  <!-- Font Awesome CSS for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    #profile-section {
+      background-color: #ddd;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+    }
+
+    #profile-image {
+      border-radius: 10%;
+      margin-right: 20px;
+      width: 200px;
+    }
+
+    #user-info {
+      flex-grow: 1;
+    }
+
+    #navigator {
+      display: flex;
+      justify-content: space-around;
+      background-color: #f2f2f2;
+      padding: 10px;
+    }
+
+    .table-container {
+      margin-left: 10px;
+      margin-right: 10px;
+      margin-top: 20px;
+      /* max-height: 300px; */
+      overflow-y: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+
+    .form-container {
+      max-width: 400px;
+      margin: 20px auto;
+      padding: 20px;
+      border: 1px solid #ddd;
+    }
+
+    hr {
+      margin: 20px 0;
+    }
+
+    .checkbox-container {
+      margin-top: 10px;
+    }
+
+    .load-more-btn {
+      display: block;
+      margin-top: 10px;
+    }
+
+    .rating-cell {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+
+    .header {
+      color: #333;
+      /* Subheader text color */
+      font-size: larger;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+
+
+    /* injected bid */
+    .injectedBid {
+      /* color: #2314c7d3; Subheader text color */
+      font-weight: bold;
+      color: #087513;
+      /* Subheader text color */
+
+    }
+
+    /* injected subs */
+    .injectedSubs {
+      color: #ad8a0e;
+      /* Subheader text color */
+      font-weight: bold;
+
+    }
+
+    .rating-btn {
+      cursor: pointer;
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <!-- User Profile Section -->
+  <div id="profile-section">
+    <img src="./images/image.webp" alt="Profile Image" id="profile-image">
+    <div id="user-info">
+      <div id="user-name" class="header">Abdel Fattah El-Sisi</div>
+      <div class="subheader">Kill him and get&nbsp; <span id="bounty" class="injectedBid"></span></div>
+      <div class="subheader">Subscribers&nbsp; <span id="participants" class="injectedSubs"></span></div>
+      <!-- <script>
+
+    </script> -->
+    </div>
+  </div>
+
+  <!-- Navigator Section
+  <div id="navigator">
+    <button class="btn btn-dark" onclick="showView('view1')">Subscribers</button>
+    <button class="btn btn-dark" onclick="showView('view2')">Subscribe</button>
+    <button class="btn btn-dark" onclick="showView('view3')">Apply</button>
+  </div> -->
+
+  <!-- Bootstrap Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+
+      <div class="navbar-brande">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link active" href="#" onclick="showView('view1')">Subscribers</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" onclick="showView('view2')">Subscribe</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" onclick="showView('view3')">Apply</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- View 1: Table of Users -->
+  <div id="view1" class="table-container">
+    <!-- <div class="table-title">Followers</div> -->
+    <table>
+      <caption>Subscribers Table</caption>
+
+      <thead>
+        <tr>
+          <th>Twitter</th>
+          <th>Amount</th>
+          <th>Country</th>
+          <th>Proof of Funds</th>
+        </tr>
+      </thead>
+      <tbody id="participants-table">
+        <!-- Dummy data for 30 users -->
+        <!-- Repeat the following row structure for each user -->
+        </tr>
+      </tbody>
+    </table>
+    <button class="btn btn-primary load-more-btn" id="load-more-participants">Load More</button>
+    <br>
+    <br>
+    <br>
+    <!-- table2 -->
+    <table class="table">
+      <caption>Pending Review Table</caption>
+      <thead>
+        <tr>
+          <th>Twitter</th>
+          <th>Amount</th>
+          <th>Country</th>
+          <th>Proof of Funds</th>
+          <th>Rating</th>
+        </tr>
+      </thead>
+      <tbody id="pparticipants-table">
+        <!-- Dummy data for 30 users -->
+        <!-- Repeat the following row structure for each user -->
+        <tr>
+
+        </tr>
+        <!-- End of dummy data -->
+      </tbody>
+    </table>
+
+    <button class="btn btn-primary mb-4 load-more-btn" id="load-more-pparticipants">Load More</button>
+    <!-- Pagination: Add buttons or controls for navigating through pages -->
+  </div>
+
+  <!-- View 2: User Registration Form -->
+  <div id="view2" class="form-container">
+    <form action="/submit" method="post" onsubmit="return validateSubscribeForm()">
+      <label for="amount" class="form-label">Amount</label>
+      <input type="text" id="v2-amount-input" placeholder="Amount (USD)" name="amount" class="form-control"
+        required><br>
+
+      <label for="account" class="form-label">X Account </label>
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">@</span>
+        <input type="text" required id="v2-account-input" name="account" class="form-control" placeholder="Username"
+          aria-label="Username" aria-describedby="basic-addon1">
+      </div>
+      <br>
+      <label for="password" class="form-label">Password</label>
+      <input type="password" id="v2-password-input" placeholder="Password (not your X password)" name="password"
+        class="form-control" required><br>
+
+
+      <hr>
+
+      <p>If Amount is greater than 1000 USD you must provide a proof of funds.</p>
+      <div>For example</div>
+      <div class="image-container">
+        <img style="width: 100%;" src="./images/proof1.png" alt="Profile Image" id="profile-image">
+      </div>
+      <br>
+      <br>
+      <label for="v2-image" class="form-label">Proof of funds (required if Amount > 1000): </label>
+      <input type="file" id="v2-image" name="photo" accept="image/*" class="form-control"><br>
+
+      <!-- <hr> -->
+
+      <div class="checkbox-container">
+        <input type="checkbox" id="agree" name="agree" class="form-check-input" required>
+        <label for="agree" class="form-check-label">I promise to deliver this amount to the executor as soon as the
+          process is completed.</label>
+      </div>
+
+      <br>
+
+      <button type="submit" id="v2-submit-btn" class="btn btn-primary">Subscribe</button>
+    </form>
+  </div>
+
+
+  <div id="view3" class="form-container">
+    <form id="v3-form" action="/submit" method="post" onsubmit="return validateApplyForm()">
+
+      <!-- Account -->
+      <div class="form-group mb-4">
+        <label for="account" class="form-label">X Account</label>
+        <div class="input-group mb-3">
+          <span class="input-group-text" id="basic-addon1">@</span>
+          <input type="text" required id="v3-account-input" name="account" class="form-control" placeholder="Username"
+            aria-label="Username" aria-describedby="basic-addon1">
+        </div>
+
+        <!-- <input type="text" class="form-control" id="v3-account-input" placeholder="Enter your account" required> -->
+      </div>
+
+      <!-- Wallet -->
+      <div class="form-group mb-4">
+        <label for="walletAddress" class="form-label">Wallet Address</label>
+        <input type="text" name="walletAddress" class="form-control" id="v3-walletAddress-input"
+          placeholder="Enter your wallet" required>
+        <!-- <small class="form-text text-muted">To receive the amount.</small> -->
+      </div>
+
+      <!-- Date Picker -->
+      <div class="form-group mb-4">
+        <label for="executionDate" class="form-label">Date</label>
+        <input type="date" class="form-control" name="v3-executionDate-input" id="v3-executionDate-input">
+      </div>
+
+      <!-- Details -->
+      <div class="form-group mb-4">
+        <label for="details" class="form-label">Details</label>
+        <textarea class="form-control" name="details" id="v3-details-input" rows="4"
+          placeholder="i.e I will execute within a week from the specified date."></textarea>
+      </div>
+
+      <!-- Password -->
+      <div class="form-group mb-4">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" class="form-control" id="v3-password-input" placeholder="Enter your password" required>
+      </div>
+
+      <!-- Signup Button -->
+      <button type="submit" id="v3-submit-btn" class="btn btn-primary">Apply</button>
+    </form>
+  </div>
+
+  <script>
+    function updateRating(rate, account) {
+      fetch(`${ENDPOINT}/updateparticipantrating`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',  // Specify the content type as JSON
+          // Add any additional headers if required
+        },
+        body: JSON.stringify({
+          rate,
+          account,
+          wanted: wantedName,
+        }),  // Convert the data object to a JSON string
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log('Rated completed.')
+          // Populate the table with fetched data
+          // populateTable(data.participants, 'participants-table');
+        })
+        .catch(error => console.error('Failed to rate:', error));
+
+    }
+    // Flag to track the state (upvote or downvote)
+    // let isUpvoted = false;
+    // let isDownvoted = false;
+    let isUpvoted = {};
+    let isDownvoted = {};
+
+    // Set the default view to View1
+    showView('view1');
+
+    function showView(viewId) {
+      document.getElementById('view1').style.display = 'none';
+      document.getElementById('view2').style.display = 'none';
+      document.getElementById('view3').style.display = 'none';
+
+      document.getElementById(viewId).style.display = 'block';
+      // Update nav-link colors
+      document.querySelectorAll('.navbar-nav .nav-link').forEach(function (link) {
+        link.classList.remove('active');
+        if (link.getAttribute('onclick') === `showView('${viewId}')`) {
+          link.classList.add('active');
+        }
+      });
+    }
+
+
+    // Function to handle upvote button click
+    function upvote(button, account) {
+      wasDownvoted = isDownvoted[account] ? 1 : 0;
+
+      // Reset downvote state
+      isDownvoted[account] = false;
+
+      // Disable the downvote button and reset its color
+      const downvoteBtn = button.nextElementSibling.nextElementSibling;
+      downvoteBtn.disabled = false;
+      downvoteBtn.classList.remove('btn-primary');
+      downvoteBtn.classList.add('btn-light');
+
+      // Toggle upvote state
+      isUpvoted[account] = !isUpvoted[account];
+      // Update button color based on state
+      updateButtonColor(button, isUpvoted[account]);
+
+      // Update the rating counter
+      const counter = button.nextElementSibling;
+      if (isUpvoted[account]) {
+        if (wasDownvoted) {
+          counter.textContent = parseInt(counter.textContent) + 2
+        }
+        else {
+          counter.textContent = parseInt(counter.textContent) + 1
+        }
+      }
+      else {
+        counter.textContent = parseInt(counter.textContent) - 1
+      }
+      // send request
+      updateRating(true, account)
+    }
+
+    // Function to handle downvote button click
+    function downvote(button, account) {
+      wasUpvoted = isUpvoted[account] ? 1 : 0;
+      // Reset upvote state
+      isUpvoted[account] = false;
+
+      // Disable the upvote button and reset its color
+      const upvoteBtn = button.previousElementSibling.previousElementSibling;
+      upvoteBtn.disabled = false;
+      upvoteBtn.classList.remove('btn-primary');
+      upvoteBtn.classList.add('btn-light');
+
+      // Toggle downvote state
+      isDownvoted[account] = !isDownvoted[account];
+      // Update button color based on state
+      updateButtonColor(button, isDownvoted[account]);
+
+      // Update the rating counter
+      const counter = button.previousElementSibling;
+      if (isDownvoted[account]) {
+        if (wasUpvoted) {
+          counter.textContent = parseInt(counter.textContent) - 2
+        }
+        else {
+          counter.textContent = parseInt(counter.textContent) - 1
+        }
+      }
+      else {
+        counter.textContent = parseInt(counter.textContent) + 1
+
+      }
+      // send request
+      updateRating(false, account)
+
+    }
+
+    // Function to update button color based on state
+    function updateButtonColor(button, isPressed) {
+      if (isPressed) {
+        button.classList.remove('btn-light');
+        button.classList.add('btn-primary');
+      } else {
+        button.classList.remove('btn-primary');
+        button.classList.add('btn-light');
+      }
+    }
+  </script>
+
+  <!-- Bootstrap JS and Popper.js (optional) -->
+  <script src="https://cdn.jsdelivr.net/npm/browser-image-compression@2.0.0/dist/browser-image-compression.js"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.5/axios.min.js"
+    integrity="sha512-TjBzDQIDnc6pWyeM1bhMnDxtWH0QpOXMcVooglXrali/Tj7W569/wd4E8EDjk1CwOAOPSJon1VfcEt1BI4xIrA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="script.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
